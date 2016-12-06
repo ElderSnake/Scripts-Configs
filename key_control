@@ -1,0 +1,54 @@
+#!/bin/bash
+
+~/Scripts/vol_channel_check # Check our channel volumes are in sync
+
+while true;
+do
+
+    echo -e "\n== CLI Remote Control ==\n"
+    echo "J = Left, I = Up, L = Right, K = Down"
+    echo -e "\nZ - Increase Volume\n"
+    echo -e "X - Decrease Volume\n"
+    echo -e "E key to accept and B to exit\n"
+    echo "Ctrl+C or Q to Quit"
+
+    read -p ":" -n 1 -s U
+
+    case $U in
+        "z")
+            echo -e "\nVolume Increased"
+            amixer sset Master 3%+
+            ;;
+        "x")
+            echo -e "\nVolume Decreased"
+            amixer sset Master 3%-
+            ;;
+        "j")
+			DISPLAY=:0 xdotool getactivewindow key Left
+            ;;
+        "l")
+			DISPLAY=:0 xdotool getactivewindow key Right
+            ;;
+        "i")
+			DISPLAY=:0 xdotool getactivewindow key Up
+            ;;
+        "k")
+			DISPLAY=:0 xdotool getactivewindow key Down
+            ;;
+		"e")
+			DISPLAY=:0 xdotool getactivewindow key Return
+			;;
+		"b")
+			DISPLAY=:0 xdotool getactivewindow key BackSpace
+			;;
+		"\\")
+			DISPLAY=:0 xdotool getactivewindow type '\'
+			;;
+		"I")
+			DISPLAY=:0 xdotool getactivewindow type 'i'
+			;;
+        "q")
+            break
+            ;;
+    esac
+done

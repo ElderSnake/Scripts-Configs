@@ -1,0 +1,2 @@
+#!/bin/bash
+xdotool windowactivate $(xdotool search --onlyvisible -name `xlsclients | grep -v "plugin-container" | cut -d" " -f3 | dmenu -i -p "Switch to"` | tail -1)

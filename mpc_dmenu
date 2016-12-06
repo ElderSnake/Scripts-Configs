@@ -1,0 +1,47 @@
+#!/bin/bash
+
+case $1 in
+
+    playlist) mpctype="playlist"
+    ;;
+
+    folder) mpctype="ls"
+    ;;
+
+    *) echo "Please enter option (i.e playlist or folder)"
+       mpctype="null"
+    ;;
+
+esac
+
+if [[ $mpctype != "null" ]]; then
+    
+    case $mpctype in
+        
+        playlist) cmd=`mpc playlist  --format '%position% %title% by %artist% #| %album%' | cut -c 1- | sed 's/)/ -/g' | cut -d '|' -f 1 | dmenu -i -b -l 30 -p "Choose Song:" | awk '{print $1}'`
+            ;;
+
+        ls) cmd=`mpc ls | dmenu -b -l 30 -p "Choose Folder:"`
+            ;;
+
+    esac
+
+    if [[ $cmd == '' ]]; 
+    then
+        echo "Nothing selected. Bye"
+    else
+
+        case $mpctype in
+
+            playlist) mpc play $cmd
+            ;;
+
+            ls) mpc clear & mpc add "$cmd"
+                mpc play
+            ;;
+           
+        esac
+    fi
+fi
+
+exit 0

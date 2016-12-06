@@ -1,0 +1,14 @@
+#!/bin/bash
+# pacnew-update - merge *.pacnew files with original configurations with meld
+
+## Put the graphical sudo application here of your choice, i.e kdesudo, gksudo etc
+sudoProg=gksudo
+
+
+pacnew=$(find /etc -type f -name "*.pacnew")
+
+for config in $pacnew; do
+  # Merge with meld
+  $sudoProg meld ${config%\.*} $config &
+  wait
+done
